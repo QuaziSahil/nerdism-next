@@ -372,7 +372,8 @@
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.85rem;
+        /* Tighter for mobile */
         margin-bottom: 16px;
     }
 

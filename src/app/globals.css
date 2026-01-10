@@ -41,6 +41,12 @@
   padding: 0 24px;
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
 /* App wrapper */
 .app {
   min-height: 100vh;
@@ -69,6 +75,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 h1 {

@@ -41,6 +41,8 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: none;
+    /* Reset shadow for gradient text */
 }
 
 .footer-tagline {
@@ -128,6 +130,8 @@
         grid-template-columns: 1fr;
         gap: 36px;
         text-align: center;
+        width: 100% !important;
+        /* Force fit */
     }
 
     .footer-brand {
@@ -159,6 +163,10 @@
 }
 
 @media (max-width: 480px) {
+    .link-group h4 {
+        margin-bottom: 12px;
+    }
+
     .footer-links {
         flex-direction: column;
         gap: 28px;
