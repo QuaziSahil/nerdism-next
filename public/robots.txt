@@ -1,0 +1,9 @@
+# robots.txt for NerDism
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://nerdism.me/sitemap.xml
+
+# Disallow admin/internal paths
+Disallow: /editor
