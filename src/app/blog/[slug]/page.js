@@ -1,64 +1,80 @@
-"use client";
-
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+// Server Component - NO "use client" - content renders on server!
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, User, Share2, Twitter, Facebook, Linkedin, ArrowLeft, Loader } from 'lucide-react';
+import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
 import { getPostBySlug, getPublishedPosts } from '@/lib/firebase';
+import ShareButtons from '@/components/ShareButtons/ShareButtons';
 import Comments from '@/components/Comments/Comments';
 import './Post.css';
 
-export default function PostPage() {
-    const params = useParams();
-    const slug = params.slug;
-    const [post, setPost] = useState(null);
-    const [relatedPosts, setRelatedPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [readProgress, setReadProgress] = useState(0);
+// Generate metadata for SEO
+export async function generateMetadata({ params }) {
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
 
-    // Fetch post from Firebase
-    useEffect(() => {
-        const fetchPost = async () => {
-            setLoading(true);
-            const fetchedPost = await getPostBySlug(slug);
-            setPost(fetchedPost);
+    if (!post) {
+        return { title: 'Post Not Found | NerDism' };
+    }
 
-            // Fetch related posts
-            if (fetchedPost) {
-                const allPosts = await getPublishedPosts();
-                const related = allPosts
-                    .filter(p => p.category === fetchedPost.category && p.id !== fetchedPost.id)
-                    .slice(0, 3);
-                setRelatedPosts(related);
-            }
+    return {
+        title: `${post.title} | NerDism`,
+        description: post.excerpt || post.title,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt,
+            images: post.image ? [post.image] : [],
+        },
+    };
+}
 
-            setLoading(false);
-        };
-        fetchPost();
-        window.scrollTo(0, 0);
-    }, [slug]);
+// Helper functions
+function renderContent(text) {
+    if (!text) return '';
+    const slugify = (text) => text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-    // Reading progress bar
-    useEffect(() => {
-        const handleScroll = () => {
-            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (window.scrollY / totalHeight) * 100;
-            setReadProgress(Math.min(100, Math.max(0, progress)));
-        };
+    return text
+        .replace(/^### (.*$)/gim, (match, title) => `<h3 id="${slugify(title)}">${title}</h3>`)
+        .replace(/^## (.*$)/gim, (match, title) => `<h2 id="${slugify(title)}">${title}</h2>`)
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/^- (.*$)/gim, '<li>$1</li>')
+        .replace(/\n/g, '<br/>');
+}
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+function formatDate(dateValue) {
+    if (!dateValue) return '';
+    let date;
+    if (dateValue?.seconds) {
+        date = new Date(dateValue.seconds * 1000);
+    } else if (dateValue?.toDate) {
+        date = dateValue.toDate();
+    } else {
+        date = new Date(dateValue);
+    }
+    if (isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
 
-    // Loading state
-    if (loading) {
-        return (
-            <div className="container post-loading">
-                <Loader size={32} className="spin" />
-                <p>Loading post...</p>
-            </div>
-        );
+// SERVER COMPONENT - Data fetched on server, content in HTML!
+export default async function PostPage({ params }) {
+    const { slug } = await params;
+
+    // Fetch post on server - this content will be in HTML source!
+    const post = await getPostBySlug(slug);
+
+    // Fetch related posts
+    let relatedPosts = [];
+    if (post) {
+        const allPosts = await getPublishedPosts();
+        relatedPosts = allPosts
+            .filter(p => p.category === post.category && p.id !== post.id)
+            .slice(0, 3);
     }
 
     // Not found
@@ -75,64 +91,9 @@ export default function PostPage() {
         );
     }
 
-    // Render markdown content with IDs for TOC
-    const renderContent = (text) => {
-        if (!text) return '';
-        const slugify = (text) => text.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-        return text
-            .replace(/^### (.*$)/gim, (match, title) => `<h3 id="${slugify(title)}">${title}</h3>`)
-            .replace(/^## (.*$)/gim, (match, title) => `<h2 id="${slugify(title)}">${title}</h2>`)
-            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/`(.*?)`/g, '<code>$1</code>')
-            .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-            .replace(/^- (.*$)/gim, '<li>$1</li>')
-            .replace(/\n/g, '<br/>');
-    };
-
-    const formatDate = (dateValue) => {
-        if (!dateValue) return '';
-        let date;
-        if (dateValue?.seconds) {
-            date = new Date(dateValue.seconds * 1000);
-        } else if (dateValue?.toDate) {
-            date = dateValue.toDate();
-        } else {
-            date = new Date(dateValue);
-        }
-        if (isNaN(date.getTime())) return '';
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
-
-    // Share handlers
-    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const shareTitle = post?.title || 'Check out this article';
-
-    const handleShare = (platform) => {
-        const urls = {
-            twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`,
-            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-        };
-        if (platform === 'native' && navigator.share) {
-            navigator.share({ title: shareTitle, url: shareUrl });
-        } else if (urls[platform]) {
-            window.open(urls[platform], '_blank', 'width=600,height=400');
-        }
-    };
-
     return (
         <article className="post-page">
-            {/* Reading Progress Bar */}
-            <div className="reading-progress" style={{ width: `${readProgress}%` }} />
-
-            {/* Hero Section */}
+            {/* Hero Section - ALL THIS CONTENT IS NOW IN HTML SOURCE! */}
             <div className="post-hero">
                 <div className="hero-content container">
                     <Link href="/blog" className="back-to-blog">
@@ -140,29 +101,15 @@ export default function PostPage() {
                         Back to Blog
                     </Link>
 
-                    <motion.span
-                        className="post-category-tag"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
+                    <span className="post-category-tag">
                         {post.category}
-                    </motion.span>
+                    </span>
 
-                    <motion.h1
-                        className="post-title-main"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                    >
+                    <h1 className="post-title-main">
                         {post.title}
-                    </motion.h1>
+                    </h1>
 
-                    <motion.div
-                        className="post-meta-detailed"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                    >
+                    <div className="post-meta-detailed">
                         <div className="meta-group">
                             <User size={18} />
                             <span>{post.author?.name || 'Nerdism'}</span>
@@ -175,29 +122,27 @@ export default function PostPage() {
                             <Clock size={18} />
                             <span>{post.readTime}</span>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
 
                 {post.image && (
                     <div className="hero-image-wrapper">
-                        <motion.img
+                        <img
                             src={post.image}
                             alt={post.title}
                             className="hero-image"
-                            initial={{ scale: 1.1, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.8 }}
                         />
                         <div className="overlay"></div>
                     </div>
                 )}
             </div>
 
-            {/* Post Content */}
+            {/* Post Content - THIS IS THE CRITICAL PART FOR ADSENSE! */}
             <div className="post-container">
                 <div className="post-content-body">
                     {post.excerpt && <p className="lead-paragraph">{post.excerpt}</p>}
 
+                    {/* Article content - rendered on server, visible in HTML source! */}
                     <div
                         className="post-content-rendered"
                         dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}
@@ -229,48 +174,22 @@ export default function PostPage() {
                         </div>
                     )}
 
-                    {/* Comments Section */}
-                    {post && <Comments postId={post.id} />}
+                    {/* Comments Section - Client Component */}
+                    <Comments postId={post.id} />
                 </div>
 
-                {/* Sidebar with Share Buttons */}
+                {/* Sidebar with Share Buttons - Client Component */}
                 <aside className="post-sidebar">
                     <div className="sticky-sidebar">
-                        <div className="share-buttons">
-                            <button className="share-btn twitter" onClick={() => handleShare('twitter')} title="Share on Twitter">
-                                <Twitter size={20} />
-                            </button>
-                            <button className="share-btn facebook" onClick={() => handleShare('facebook')} title="Share on Facebook">
-                                <Facebook size={20} />
-                            </button>
-                            <button className="share-btn linkedin" onClick={() => handleShare('linkedin')} title="Share on LinkedIn">
-                                <Linkedin size={20} />
-                            </button>
-                            <button className="share-btn native" onClick={() => handleShare('native')} title="Share">
-                                <Share2 size={20} />
-                            </button>
-                        </div>
+                        <ShareButtons title={post.title} />
                     </div>
                 </aside>
             </div>
 
-            {/* Mobile Share Bar */}
+            {/* Mobile Share Bar - Client Component */}
             <div className="mobile-share-bar">
                 <div className="share-label">Share this article</div>
-                <div className="share-buttons">
-                    <button className="share-btn twitter" onClick={() => handleShare('twitter')} title="Share on Twitter">
-                        <Twitter size={20} />
-                    </button>
-                    <button className="share-btn facebook" onClick={() => handleShare('facebook')} title="Share on Facebook">
-                        <Facebook size={20} />
-                    </button>
-                    <button className="share-btn linkedin" onClick={() => handleShare('linkedin')} title="Share on LinkedIn">
-                        <Linkedin size={20} />
-                    </button>
-                    <button className="share-btn native" onClick={() => handleShare('native')} title="Share">
-                        <Share2 size={20} />
-                    </button>
-                </div>
+                <ShareButtons title={post.title} />
             </div>
         </article>
     );
