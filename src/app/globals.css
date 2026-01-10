@@ -16,8 +16,9 @@
 
   /* Essential Layout Variables */
   --nav-height: 72px;
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Dark Mode Colors */
   --bg-primary: #0a0a0a;
@@ -26,6 +27,7 @@
   --text-secondary: rgba(255, 255, 255, 0.65);
   --accent-color: #a855f7;
   --accent-primary: #00f6ff;
+  --accent-primary-rgb: 0, 246, 255;
   /* Cyan neon for dark mode */
   --border-color: rgba(255, 255, 255, 0.1);
   --card-bg: rgba(255, 255, 255, 0.03);
@@ -132,6 +134,7 @@ button:focus-visible {
   --text-secondary: rgba(248, 215, 232, 0.7);
   --accent-color: #d946a8;
   --accent-primary: #ff2ec4;
+  --accent-primary-rgb: 255, 46, 196;
   /* Pink neon for rose mode */
   --border-color: rgba(217, 70, 168, 0.2);
 

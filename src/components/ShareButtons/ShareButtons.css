@@ -22,22 +22,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
 }
 
+.share-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+    transition: transform 0.3s ease;
+}
+
 .share-btn:hover {
-    background: var(--hover-color, var(--accent-primary));
+    background: var(--accent-primary);
     color: white;
     border-color: transparent;
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(var(--accent-primary-rgb, 99, 102, 241), 0.4);
+}
+
+.share-btn:hover svg {
+    transform: scale(1.1);
+}
+
+.share-btn:active {
+    transform: translateY(-1px) scale(1.02);
 }
 
 .share-btn.copy-btn.copied {
@@ -52,5 +68,15 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+    }
+
+    .share-btn {
+        width: 56px;
+        height: 56px;
+    }
+
+    .share-btn svg {
+        width: 26px;
+        height: 26px;
     }
 }
