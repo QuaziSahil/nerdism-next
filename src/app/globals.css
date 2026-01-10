@@ -12,6 +12,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  box-sizing: border-box;
+
   /* Essential Layout Variables */
   --nav-height: 72px;
   --transition-fast: 0.15s ease;
@@ -31,6 +33,12 @@
   --orb-opacity: 0.5;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 /* Container - Essential for page layouts */
