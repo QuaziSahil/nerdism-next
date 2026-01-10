@@ -1,3 +1,5 @@
+'use client';
+
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Underline } from '@tiptap/extension-underline';
@@ -250,7 +252,6 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                 !url.includes('imgbb.com') &&
                 !url.includes('unsplash.com') &&
                 !url.includes('pexels.com') &&
-                !url.includes('images.') &&
                 !url.includes('images.') &&
                 !url.includes('/image')) {
                 // Still allow if user confirms

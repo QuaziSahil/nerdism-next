@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef } from 'react';
 import { Upload, X, Link as LinkIcon, Loader, ExternalLink } from 'lucide-react';
 import './ImageUploader.css';

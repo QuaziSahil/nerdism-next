@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+'use client';
+
+import { useState, useMemo } from 'react';
 import {
     Target, FileText, Hash, Image, BookOpen,
     CheckCircle2, AlertCircle, XCircle, TrendingUp

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Share2, Globe, Calendar } from 'lucide-react';
 import './SocialPreview.css';
