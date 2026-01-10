@@ -195,6 +195,7 @@ kbd {
     background: transparent;
     border: none;
     border-bottom: 2px solid var(--border-color);
+    /* Underline only as requested */
     padding: 10px 0;
     font-size: 2.5rem;
     font-weight: 800;
@@ -361,6 +362,7 @@ textarea:focus {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     min-height: 500px;
     color: #1a1a1a;
+    /* Always dark text for preview */
 }
 
 .preview-cover {
