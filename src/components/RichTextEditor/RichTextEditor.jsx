@@ -44,10 +44,54 @@ const MenuButton = ({ onClick, isActive, disabled, title, children }) => (
         className={`menu-btn ${isActive ? 'active' : ''}`}
         disabled={disabled}
         title={title}
+        style={{ color: 'rgba(255, 255, 255, 0.8)' }}
     >
         {children}
     </button>
 );
+
+// Simple Text Icons - guaranteed to work in any environment
+const iconStyle = { fontSize: '14px', fontWeight: 'bold', fontFamily: 'monospace', lineHeight: 1 };
+
+const IconBold = () => <span style={iconStyle}>B</span>;
+const IconItalic = () => <span style={{ ...iconStyle, fontStyle: 'italic' }}>I</span>;
+const IconUnderline = () => <span style={{ ...iconStyle, textDecoration: 'underline' }}>U</span>;
+const IconStrikethrough = () => <span style={{ ...iconStyle, textDecoration: 'line-through' }}>S</span>;
+const IconH1 = () => <span style={iconStyle}>H1</span>;
+const IconH2 = () => <span style={iconStyle}>H2</span>;
+const IconH3 = () => <span style={iconStyle}>H3</span>;
+const IconType = () => <span style={iconStyle}>Aa</span>;
+const IconChevronDown = () => <span style={{ fontSize: '10px' }}>▼</span>;
+const IconList = () => <span style={iconStyle}>≡</span>;
+const IconListOrdered = () => <span style={iconStyle}>1.</span>;
+const IconQuote = () => <span style={iconStyle}>"</span>;
+const IconCode = () => <span style={iconStyle}>&lt;/&gt;</span>;
+const IconMinus = () => <span style={iconStyle}>—</span>;
+const IconAlignLeft = () => <span style={iconStyle}>⫷</span>;
+const IconAlignCenter = () => <span style={iconStyle}>☰</span>;
+const IconAlignRight = () => <span style={iconStyle}>⫸</span>;
+const IconAlignJustify = () => <span style={iconStyle}>≡</span>;
+const IconLink = () => <span style={iconStyle}>🔗</span>;
+const IconImage = () => <span style={iconStyle}>🖼</span>;
+const IconTable = () => <span style={iconStyle}>⊞</span>;
+const IconPalette = () => <span style={iconStyle}>🎨</span>;
+const IconHighlighter = () => <span style={iconStyle}>🖍</span>;
+const IconUndo = () => <span style={iconStyle}>↶</span>;
+const IconRedo = () => <span style={iconStyle}>↷</span>;
+const IconKeyboard = () => <span style={iconStyle}>⌨</span>;
+const IconSearch = () => <span style={iconStyle}>🔍</span>;
+const IconX = () => <span style={iconStyle}>✕</span>;
+const IconCheck = () => <span style={iconStyle}>✓</span>;
+const IconSave = () => <span style={iconStyle}>💾</span>;
+const IconPlusCircle = () => <span style={iconStyle}>⊕</span>;
+const IconTrash = () => <span style={iconStyle}>🗑</span>;
+const IconInfo = () => <span style={iconStyle}>ℹ</span>;
+const IconYoutube = () => <span style={iconStyle}>▶</span>;
+const IconVideo = () => <span style={iconStyle}>🎬</span>;
+const IconBarChart = () => <span style={iconStyle}>📊</span>;
+const IconCaseSensitive = () => <span style={iconStyle}>Aa</span>;
+
+
 
 // Define FontSize extension manually to ensure it works
 const FontSize = Extension.create({
@@ -153,6 +197,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
     const [showSEO, setShowSEO] = useState(false);
 
     const editor = useEditor({
+        immediatelyRender: false, // Required for Next.js SSR compatibility
         extensions: [
             StarterKit.configure({
                 heading: false, // Disable default heading to use CustomHeading
@@ -450,28 +495,28 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         isActive={editor.isActive('bold')}
                         title="Bold (Ctrl+B)"
                     >
-                        <Bold size={16} />
+                        <IconBold />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleItalic().run()}
                         isActive={editor.isActive('italic')}
                         title="Italic (Ctrl+I)"
                     >
-                        <Italic size={16} />
+                        <IconItalic />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleUnderline().run()}
                         isActive={editor.isActive('underline')}
                         title="Underline (Ctrl+U)"
                     >
-                        <UnderlineIcon size={16} />
+                        <IconUnderline />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleStrike().run()}
                         isActive={editor.isActive('strike')}
                         title="Strikethrough"
                     >
-                        <Strikethrough size={16} />
+                        <IconStrikethrough />
                     </MenuButton>
                 </div>
 
@@ -484,21 +529,21 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         isActive={editor.isActive('heading', { level: 1 })}
                         title="Heading 1"
                     >
-                        <Heading1 size={16} />
+                        <IconH1 />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                         isActive={editor.isActive('heading', { level: 2 })}
                         title="Heading 2"
                     >
-                        <Heading2 size={16} />
+                        <IconH2 />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                         isActive={editor.isActive('heading', { level: 3 })}
                         title="Heading 3"
                     >
-                        <Heading3 size={16} />
+                        <IconH3 />
                     </MenuButton>
 
                     {/* Font Family Dropdown */}
@@ -514,8 +559,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             title="Font Family"
                             isActive={showFontFamily}
                         >
-                            <Type size={16} />
-                            <ChevronDown size={12} />
+                            <IconType />
+                            <IconChevronDown />
                         </MenuButton>
                         {showFontFamily && (
                             <div className="color-dropdown font-family-dropdown">
@@ -557,8 +602,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             }}
                             title="Font Size"
                         >
-                            <CaseSensitive size={16} />
-                            <ChevronDown size={12} />
+                            <IconCaseSensitive />
+                            <IconChevronDown />
                         </MenuButton>
                         {showFontSize && (
                             <div className="color-dropdown font-size-dropdown">
@@ -605,8 +650,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             title="Text Color"
                             isActive={editor.isActive('textStyle', { color: /./ })}
                         >
-                            <Palette size={16} />
-                            <ChevronDown size={12} />
+                            <IconPalette />
+                            <IconChevronDown />
                         </MenuButton>
                         {showColorPicker && (
                             <div className="color-dropdown">
@@ -646,8 +691,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             isActive={editor.isActive('highlight')}
                             title="Highlight"
                         >
-                            <Highlighter size={16} />
-                            <ChevronDown size={12} />
+                            <IconHighlighter />
+                            <IconChevronDown />
                         </MenuButton>
                         {showHighlightPicker && (
                             <div className="color-dropdown">
@@ -684,34 +729,34 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         isActive={editor.isActive('bulletList')}
                         title="Bullet List"
                     >
-                        <List size={16} />
+                        <IconList />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleOrderedList().run()}
                         isActive={editor.isActive('orderedList')}
                         title="Numbered List"
                     >
-                        <ListOrdered size={16} />
+                        <IconListOrdered />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleBlockquote().run()}
                         isActive={editor.isActive('blockquote')}
                         title="Blockquote"
                     >
-                        <Quote size={16} />
+                        <IconQuote />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
                         isActive={editor.isActive('codeBlock')}
                         title="Code Block"
                     >
-                        <Code size={16} />
+                        <IconCode />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().setHorizontalRule().run()}
                         title="Horizontal Line"
                     >
-                        <Minus size={16} />
+                        <IconMinus />
                     </MenuButton>
                 </div>
 
@@ -724,28 +769,28 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         isActive={editor.isActive({ textAlign: 'left' })}
                         title="Align Left"
                     >
-                        <AlignLeft size={16} />
+                        <IconAlignLeft />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().setTextAlign('center').run()}
                         isActive={editor.isActive({ textAlign: 'center' })}
                         title="Align Center"
                     >
-                        <AlignCenter size={16} />
+                        <IconAlignCenter />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().setTextAlign('right').run()}
                         isActive={editor.isActive({ textAlign: 'right' })}
                         title="Align Right"
                     >
-                        <AlignRight size={16} />
+                        <IconAlignRight />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().setTextAlign('justify').run()}
                         isActive={editor.isActive({ textAlign: 'justify' })}
                         title="Justify"
                     >
-                        <AlignJustify size={16} />
+                        <IconAlignJustify />
                     </MenuButton>
                 </div>
 
@@ -754,7 +799,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                 {/* Insert */}
                 <div className="toolbar-group">
                     <MenuButton onClick={addLink} isActive={editor.isActive('link')} title="Insert Link">
-                        <LinkIcon size={16} />
+                        <IconLink />
                     </MenuButton>
                     <MenuButton
                         onClick={triggerImageUpload}
@@ -764,7 +809,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         {isUploadingImage ? (
                             <span className="upload-spinner">⏳</span>
                         ) : (
-                            <ImageIcon size={16} />
+                            <IconImage />
                         )}
                     </MenuButton>
                     {/* Hidden file input for image upload */}
@@ -787,8 +832,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             isActive={editor.isActive('table')}
                             title="Insert Table"
                         >
-                            <TableIcon size={16} />
-                            <ChevronDown size={12} />
+                            <IconTable />
+                            <IconChevronDown />
                         </MenuButton>
                         {showTableMenu && (
                             <div className="color-dropdown table-dropdown">
@@ -800,7 +845,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                         setShowTableMenu(false);
                                     }}
                                 >
-                                    <PlusCircle size={14} /> Insert 3×3 Table
+                                    <IconPlusCircle /> Insert 3×3 Table
                                 </button>
                                 {editor.isActive('table') && (
                                     <>
@@ -830,7 +875,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                                 setShowTableMenu(false);
                                             }}
                                         >
-                                            <Trash2 size={14} /> Delete Row
+                                            <IconTrash /> Delete Row
                                         </button>
                                         <button
                                             className="dropdown-btn danger"
@@ -839,7 +884,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                                 setShowTableMenu(false);
                                             }}
                                         >
-                                            <Trash2 size={14} /> Delete Column
+                                            <IconTrash /> Delete Column
                                         </button>
                                         <button
                                             className="dropdown-btn danger"
@@ -848,7 +893,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                                 setShowTableMenu(false);
                                             }}
                                         >
-                                            <Trash2 size={14} /> Delete Table
+                                            <IconTrash /> Delete Table
                                         </button>
                                     </>
                                 )}
@@ -867,8 +912,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             }}
                             title="Insert Callout Box"
                         >
-                            <Info size={16} />
-                            <ChevronDown size={12} />
+                            <IconInfo />
+                            <IconChevronDown />
                         </MenuButton>
                         {showCalloutMenu && (
                             <div className="color-dropdown callout-dropdown">
@@ -880,7 +925,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                         setShowCalloutMenu(false);
                                     }}
                                 >
-                                    <Info size={14} /> Info Box
+                                    <IconInfo /> Info Box
                                 </button>
                                 <button
                                     className="dropdown-btn callout-warning"
@@ -889,7 +934,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                         setShowCalloutMenu(false);
                                     }}
                                 >
-                                    <AlertTriangle size={14} /> Warning Box
+                                    ⚠️ Warning Box
                                 </button>
                                 <button
                                     className="dropdown-btn callout-tip"
@@ -898,7 +943,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                         setShowCalloutMenu(false);
                                     }}
                                 >
-                                    <Lightbulb size={14} /> Tip Box
+                                    💡 Tip Box
                                 </button>
                             </div>
                         )}
@@ -916,8 +961,8 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                             isActive={editor.isActive('youtube')}
                             title="Embed Media"
                         >
-                            <Video size={16} />
-                            <ChevronDown size={12} />
+                            <IconVideo />
+                            <IconChevronDown />
                         </MenuButton>
                         {showEmbedMenu && (
                             <div className="color-dropdown callout-dropdown">
@@ -926,20 +971,20 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                                     className="dropdown-btn"
                                     onClick={addYoutube}
                                 >
-                                    <YoutubeIcon size={14} /> YouTube
+                                    <IconYoutube /> YouTube
                                 </button>
                                 <button
                                     className="dropdown-btn"
                                     onClick={addTwitter}
                                 >
-                                    <TwitterIcon size={14} /> Twitter / X
+                                    🐦 Twitter / X
                                 </button>
                                 <div className="dropdown-divider" />
                                 <button
                                     className="dropdown-btn"
                                     onClick={addImageFromUrl}
                                 >
-                                    <ImageIcon size={14} /> Image from URL
+                                    <IconImage /> Image from URL
                                 </button>
                             </div>
                         )}
@@ -951,7 +996,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         isActive={editor.isActive('codeBlock')}
                         title="Code Block"
                     >
-                        <FileCode size={16} />
+                        <IconCode />
                     </MenuButton>
                 </div>
 
@@ -964,14 +1009,14 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         disabled={!editor.can().undo()}
                         title="Undo"
                     >
-                        <Undo size={16} />
+                        <IconUndo />
                     </MenuButton>
                     <MenuButton
                         onClick={() => editor.chain().focus().redo().run()}
                         disabled={!editor.can().redo()}
                         title="Redo"
                     >
-                        <Redo size={16} />
+                        <IconRedo />
                     </MenuButton>
                 </div>
             </div>
@@ -995,12 +1040,12 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                 <div className="footer-actions">
                     {isSaving && (
                         <span className="save-indicator saving">
-                            <Save size={14} /> Saving...
+                            <IconSave /> Saving...
                         </span>
                     )}
                     {lastSaved && !isSaving && (
                         <span className="save-indicator saved">
-                            <Check size={14} /> Saved {lastSaved.toLocaleTimeString()}
+                            <IconCheck /> Saved {lastSaved.toLocaleTimeString()}
                         </span>
                     )}
                     <button
@@ -1008,21 +1053,21 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         onClick={() => setShowShortcuts(true)}
                         title="Keyboard Shortcuts (Ctrl+/)"
                     >
-                        <Keyboard size={16} />
+                        <IconKeyboard />
                     </button>
                     <button
                         className="footer-btn"
                         onClick={() => setShowFindReplace(true)}
                         title="Find & Replace (Ctrl+F)"
                     >
-                        <Search size={16} />
+                        <IconSearch />
                     </button>
                     <button
                         className={`footer-btn ${showSEO ? 'active' : ''}`}
                         onClick={() => setShowSEO(true)}
                         title="SEO Dashboard"
                     >
-                        <BarChart2 size={16} />
+                        <IconBarChart />
                     </button>
                 </div>
             </div>
@@ -1032,9 +1077,9 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                 <div className="editor-modal-overlay" onClick={() => setShowShortcuts(false)}>
                     <div className="editor-modal shortcuts-modal" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3><Keyboard size={20} /> Keyboard Shortcuts</h3>
+                            <h3><IconKeyboard /> Keyboard Shortcuts</h3>
                             <button className="modal-close" onClick={() => setShowShortcuts(false)}>
-                                <X size={20} />
+                                <IconX />
                             </button>
                         </div>
                         <div className="shortcuts-grid">
@@ -1070,9 +1115,9 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                 <div className="editor-modal-overlay" onClick={() => setShowFindReplace(false)}>
                     <div className="editor-modal find-replace-modal" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3><Search size={20} /> Find & Replace</h3>
+                            <h3><IconSearch /> Find & Replace</h3>
                             <button className="modal-close" onClick={() => setShowFindReplace(false)}>
-                                <X size={20} />
+                                <IconX />
                             </button>
                         </div>
                         <div className="find-replace-inputs">
@@ -1098,7 +1143,7 @@ const RichTextEditor = ({ content, onChange, placeholder = "Write your masterpie
                         </div>
                         <div className="find-replace-actions">
                             <button className="btn-find" onClick={handleFind}>
-                                <Search size={16} /> Find Next
+                                <IconSearch /> Find Next
                             </button>
                             <button className="btn-replace" onClick={handleReplace} disabled={!findText}>
                                 Replace All
