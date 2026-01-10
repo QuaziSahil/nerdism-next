@@ -20,6 +20,10 @@ export const metadata = {
   description: 'Discover the Nerd Inside You. Tech, Gaming, Coding, Anime, Movies, AI - your modern nerd culture blog.',
   keywords: 'tech, gaming, anime, movies, AI, nerd culture, blog',
   authors: [{ name: 'Nerdism' }],
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     title: 'NerDism - The Modern Nerd',
     description: 'Where code meets culture. Dive deep into Tech, Gaming, Anime, Movies, and AI.',
