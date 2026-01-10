@@ -43,9 +43,23 @@
     background: transparent;
     border: none;
     border-radius: 6px;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.7);
+    /* Explicit fallback color */
     cursor: pointer;
     transition: all 0.15s;
+}
+
+/* Force SVG icon visibility with explicit stroke */
+.menu-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: rgba(255, 255, 255, 0.7) !important;
+    stroke-width: 2px;
+    fill: none;
+}
+
+.menu-btn:hover svg {
+    stroke: #a855f7 !important;
 }
 
 .menu-btn:hover:not(:disabled) {
