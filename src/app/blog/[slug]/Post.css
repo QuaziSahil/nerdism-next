@@ -457,8 +457,14 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 24px;
+}
+
+.mobile-share-bar .share-btn svg {
+    width: 26px !important;
+    height: 26px !important;
+    stroke-width: 2;
 }
 
 .mobile-share-bar .share-btn:active {
@@ -633,8 +639,8 @@
     }
 
     .share-btn {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         border: 1px solid var(--border-color);
         background: var(--bg-secondary);
@@ -643,8 +649,14 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .share-btn svg {
+        width: 24px !important;
+        height: 24px !important;
+        stroke-width: 2;
     }
 
     .share-btn:hover {
@@ -652,7 +664,11 @@
         border-color: var(--accent-primary, #d946a8);
         color: #fff;
         transform: scale(1.15);
-        box-shadow: 0 6px 20px rgba(217, 70, 168, 0.4);
+        box-shadow: 0 8px 25px rgba(var(--accent-primary-rgb, 217, 70, 168), 0.4);
+    }
+
+    .share-btn:hover svg {
+        transform: scale(1.1);
     }
 
     /* Images - Larger Breakout */
