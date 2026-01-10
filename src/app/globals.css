@@ -1,42 +1,114 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+  /* Dark Mode Defaults */
+  --bg-primary: #242424;
+  --bg-secondary: #1a1a1a;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --accent-color: #646cff;
+  --border-color: rgba(255, 255, 255, 0.1);
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  /* Visuals */
+  --orb-opacity: 0.5;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* ===== COSMIC ROSE THEME (Light Mode Toggle) ===== */
+[data-theme='light'] {
+  /* Base - Deep cosmic purple, NOT white */
+  color: #f8d7e8;
+  background: linear-gradient(135deg, #1a0a14 0%, #2d1b2e 50%, #1a0a1a 100%);
+  background-attachment: fixed;
+
+  /* Colors */
+  --bg-primary: #1a0a14;
+  --bg-secondary: rgba(45, 27, 46, 0.6);
+  --text-primary: #f8d7e8;
+  --text-secondary: rgba(248, 215, 232, 0.7);
+  --accent-color: #d946a8;
+  --border-color: rgba(217, 70, 168, 0.2);
+
+  /* Rose/Purple Visuals */
+  --orb-opacity: 0.4;
+  --glass-bg: rgba(139, 69, 116, 0.15);
+  --glass-border: rgba(217, 70, 168, 0.15);
+
+  /* Cosmic Orb Gradients - Rose/Magenta/Purple */
+  --orb-1-color: linear-gradient(135deg, #9f1d70, #6b21a8);
+  --orb-2-color: linear-gradient(135deg, #be185d, #831843);
+  --orb-3-color: linear-gradient(135deg, #7c3aed, #4c1d95);
+}
+
+@media (prefers-color-scheme: light) {
+
+  /* System light preference fallback - also cosmic */
+  :root:not([data-theme]) {
+    color: #f8d7e8;
+    background: linear-gradient(135deg, #1a0a14, #2d1b2e, #1a0a1a);
+  }
+
+  a:hover {
+    color: #f472b6;
+  }
+
+  button {
+    background-color: rgba(139, 69, 116, 0.2);
+    color: #f8d7e8;
   }
 }

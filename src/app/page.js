@@ -1,66 +1,191 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { ArrowRight, Sparkles, Loader, Star } from 'lucide-react';
+import PostCard from '@/components/PostCard/PostCard';
+import Newsletter from '@/components/Newsletter/Newsletter';
+import { getPublishedPosts } from '@/lib/firebase';
+import './Home.css';
 
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+  const [featuredPost, setFeaturedPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch posts from Firebase
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const fetchedPosts = await getPublishedPosts();
+      // Set featured post (first/newest post)
+      if (fetchedPosts.length > 0) {
+        setFeaturedPost(fetchedPosts[0]);
+        setPosts(fetchedPosts.slice(1, 10)); // Get next 9 posts
+      } else {
+        setPosts([]);
+      }
+      setLoading(false);
+    };
+    fetchPosts();
+  }, []);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="home-page">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-bg">
+          <div className="gradient-orb orb-1"></div>
+          <div className="gradient-orb orb-2"></div>
+          <div className="gradient-orb orb-3"></div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="container hero-content">
+          <motion.div
+            className="hero-badge"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Sparkles size={16} />
+            <span>Welcome to NerDism</span>
+          </motion.div>
+
+          <motion.h1
+            className="hero-title"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Documentation
-          </a>
+            Discover the <span className="gradient-text">Nerd</span> Inside You.
+          </motion.h1>
+
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            Where code meets culture. Dive deep into Tech, Gaming, Anime, Movies, and AI.
+            Your journey into the nerdiverse starts here. We publish in-depth articles,
+            reviews, tutorials, and insights for passionate enthusiasts who love to learn.
+          </motion.p>
+
+          <motion.div
+            className="hero-cta"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <Link href="/blog" className="btn btn-primary">
+              Explore the Blog
+              <ArrowRight size={18} />
+            </Link>
+            <Link href="/about" className="btn btn-secondary">
+              About Us
+            </Link>
+          </motion.div>
         </div>
-      </main>
+      </section>
+
+      {/* Featured Article Section */}
+      {!loading && featuredPost && (
+        <section className="featured-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2><Star size={24} /> Featured <span className="gradient-text">Article</span></h2>
+              <p>Our top pick for you this week</p>
+            </motion.div>
+
+            <motion.div
+              className="featured-card"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Link href={`/blog/${featuredPost.slug}`} className="featured-link">
+                {featuredPost.image && (
+                  <div className="featured-image">
+                    <img src={featuredPost.image} alt={featuredPost.title} />
+                  </div>
+                )}
+                <div className="featured-content">
+                  <span className="featured-category">{featuredPost.category}</span>
+                  <h3>{featuredPost.title}</h3>
+                  <p className="featured-excerpt">
+                    {featuredPost.excerpt || 'Discover insights, analysis, and expert opinions in this comprehensive article.'}
+                  </p>
+                  <span className="read-more">
+                    Read Full Article <ArrowRight size={16} />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Latest Posts Section */}
+      {loading ? (
+        <section className="loading-section">
+          <div className="container">
+            <Loader size={32} className="spin" />
+          </div>
+        </section>
+      ) : posts.length > 0 ? (
+        <section className="latest-posts-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2>Latest <span className="gradient-text">Posts</span></h2>
+              <p>Fresh content from across the nerdiverse — tech tutorials, gaming news, anime reviews, and more</p>
+            </motion.div>
+
+            <div className="posts-grid">
+              {posts.map((post, index) => (
+                <PostCard key={post.id} post={post} index={index} />
+              ))}
+            </div>
+
+            <motion.div
+              className="view-all"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+            >
+              <Link href="/blog" className="btn btn-outline">
+                View All Posts
+                <ArrowRight size={18} />
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+      ) : (
+        <section className="empty-state">
+          <div className="container">
+            <h2>Coming Soon</h2>
+            <p>New content is on its way. Stay tuned!</p>
+          </div>
+        </section>
+      )}
+
+      {/* Newsletter Signup */}
+      <div className="container">
+        <Newsletter />
+      </div>
     </div>
   );
 }
