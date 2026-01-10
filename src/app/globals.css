@@ -5,24 +5,52 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #0a0a0a;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Dark Mode Defaults */
-  --bg-primary: #242424;
-  --bg-secondary: #1a1a1a;
-  --text-primary: rgba(255, 255, 255, 0.87);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --accent-color: #646cff;
+
+  /* Essential Layout Variables */
+  --nav-height: 72px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+
+  /* Dark Mode Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --accent-color: #a855f7;
+  --accent-primary: #6366f1;
   --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.03);
 
   /* Visuals */
   --orb-opacity: 0.5;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Container - Essential for page layouts */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* App wrapper */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app>main {
+  flex: 1;
+  padding-top: var(--nav-height);
 }
 
 a {
