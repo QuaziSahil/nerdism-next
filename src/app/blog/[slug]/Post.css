@@ -447,8 +447,8 @@
 }
 
 .mobile-share-bar .share-btn {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     border: 1px solid var(--border-color);
     background: var(--bg-secondary);
@@ -458,6 +458,7 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 20px;
 }
 
 .mobile-share-bar .share-btn:active {

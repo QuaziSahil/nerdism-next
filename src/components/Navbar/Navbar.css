@@ -132,6 +132,12 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
+.theme-toggle:focus,
+.theme-toggle:focus-visible {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
 .mobile-toggle {
     display: none;
 }
@@ -175,6 +181,7 @@
         padding: 12px 0;
     }
 }
+
 @media (max-width: 400px) {
     .logo-text {
         font-size: 1.35rem;

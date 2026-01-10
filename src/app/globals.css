@@ -25,7 +25,8 @@
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.65);
   --accent-color: #a855f7;
-  --accent-primary: #6366f1;
+  --accent-primary: #00f6ff;
+  /* Cyan neon for dark mode */
   --border-color: rgba(255, 255, 255, 0.1);
   --card-bg: rgba(255, 255, 255, 0.03);
 
@@ -114,7 +115,7 @@ button:hover {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 /* ===== COSMIC ROSE THEME (Light Mode Toggle) ===== */
@@ -130,6 +131,8 @@ button:focus-visible {
   --text-primary: #f8d7e8;
   --text-secondary: rgba(248, 215, 232, 0.7);
   --accent-color: #d946a8;
+  --accent-primary: #ff2ec4;
+  /* Pink neon for rose mode */
   --border-color: rgba(217, 70, 168, 0.2);
 
   /* Rose/Purple Visuals */
