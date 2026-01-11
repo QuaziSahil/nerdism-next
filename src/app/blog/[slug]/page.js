@@ -18,10 +18,15 @@ export async function generateMetadata({ params }) {
     return {
         title: `${post.title} | NerDism`,
         description: post.excerpt || post.title,
+        alternates: {
+            canonical: `/blog/${slug}`,
+        },
         openGraph: {
             title: post.title,
             description: post.excerpt,
+            url: `https://nerdism.me/blog/${slug}`,
             images: post.image ? [post.image] : [],
+            type: 'article',
         },
     };
 }

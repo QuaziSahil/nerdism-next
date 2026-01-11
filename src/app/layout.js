@@ -16,10 +16,14 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://nerdism.me'),
   title: 'NerDism - The Modern Nerd',
   description: 'Discover the Nerd Inside You. Tech, Gaming, Coding, Anime, Movies, AI - your modern nerd culture blog.',
   keywords: 'tech, gaming, anime, movies, AI, nerd culture, blog',
   authors: [{ name: 'Nerdism' }],
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',
