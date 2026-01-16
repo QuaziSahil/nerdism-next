@@ -6,6 +6,17 @@ import ShareButtons from '@/components/ShareButtons/ShareButtons';
 import Comments from '@/components/Comments/Comments';
 import './Post.css';
 
+// ISR: Revalidate every hour (3600 seconds) - CRITICAL for reducing origin transfer
+export const revalidate = 3600;
+
+// Pre-render all blog posts at build time - reduces origin requests
+export async function generateStaticParams() {
+    const posts = await getPublishedPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
+
 // Generate metadata for SEO
 export async function generateMetadata({ params }) {
     const { slug } = await params;
