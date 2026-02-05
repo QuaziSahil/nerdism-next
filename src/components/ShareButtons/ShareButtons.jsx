@@ -1,5 +1,7 @@
 "use client";
 
+import './ShareButtons.css';
+
 // Simple text icons - 100% guaranteed to work in any environment
 const iconStyle = {
     fontSize: '20px',

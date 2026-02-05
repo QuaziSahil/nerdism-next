@@ -80,3 +80,31 @@
         height: 26px;
     }
 }
+
+/* Mobile Share Bar Context - Ensure proper display in footer */
+.mobile-share-bar .share-buttons {
+    flex-direction: row;
+    border-top: none;
+    margin-top: 0;
+    padding: 0;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-share-bar .share-btn {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+    background: var(--bg-secondary, rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #fff;
+    font-size: 20px;
+}
+
+.mobile-share-bar .share-btn:active {
+    background: linear-gradient(135deg, #d946a8, #a855f7);
+    border-color: transparent;
+    transform: scale(0.95);
+}

@@ -290,6 +290,31 @@
     text-underline-offset: 3px;
 }
 
+/* Horizontal Rule - Neon Purple Glow */
+.post-content-rendered hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #a855f7, #d946a8, #a855f7, transparent);
+    margin: 48px 0;
+    position: relative;
+    box-shadow:
+        0 0 10px rgba(168, 85, 247, 0.6),
+        0 0 20px rgba(168, 85, 247, 0.4),
+        0 0 40px rgba(168, 85, 247, 0.2);
+    border-radius: 2px;
+}
+
+.post-content-rendered hr::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), rgba(217, 70, 168, 0.3), rgba(168, 85, 247, 0.3), transparent);
+    filter: blur(4px);
+}
+
 /* ========== YouTube/Video Embeds - RESPONSIVE ========== */
 .post-content-rendered div[data-youtube-video],
 .post-content-rendered .youtube-wrapper {
